@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zihong.onr.mapper.OrderFoodsMapper">
+
+    <insert id="insert" parameterType="com.zihong.onr.pojo.OrderFoods">
+        insert into order_foods (orderId, foodId, number, totalPrice)
+        values (#{orderId}, #{foodId}, #{number}, #{totalPrice})
+    </insert>
+
+    <delete id="deleteByPrimaryKey">
+        delete from order_foods where id = #{id}
+    </delete>
+</mapper>

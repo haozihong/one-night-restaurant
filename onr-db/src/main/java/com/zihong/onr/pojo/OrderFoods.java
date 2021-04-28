@@ -19,6 +19,8 @@ public class OrderFoods {
 
     private Integer foodId;
 
+    private Food food;
+
     private Integer number;
 
     private Double totalPrice;
