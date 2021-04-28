@@ -43,6 +43,10 @@ public class OrderService {
         return orderMapper.selectPendingByPhone(phone);
     }
 
+    public List<Order> selectByCustomerNameFuzzy(String keyword) {
+        return orderMapper.selectByCustomerNameFuzzy(keyword);
+    }
+
     public int insert(Order order) {
         if (orderMapper.insert(order) == 0) return 0;
         for (OrderFoods orderFoods : order.getFoodsList()) {

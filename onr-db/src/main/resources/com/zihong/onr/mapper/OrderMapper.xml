@@ -76,6 +76,12 @@
         where c.phone = #{phone} and status = 0
     </select>
 
+    <select id="selectByCustomerNameFuzzy" resultMap="detailedOrderResultMap" parameterType="string">
+        <bind name="pattern" value="'%' + keyword + '%'"/>
+        <include refid="selectDetailedOrder"/>
+        where lower(c.name) like lower(#{pattern})
+    </select>
+
     <delete id="deleteByPrimaryKey">
         delete from `order` where id = #{id}
     </delete>

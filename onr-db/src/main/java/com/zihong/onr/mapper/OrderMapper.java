@@ -22,6 +22,8 @@ public interface OrderMapper {
 
     List<Order> selectPendingByPhone(String phone);
 
+    List<Order> selectByCustomerNameFuzzy(String keyword);
+
     int insert(Order record);
 
     int updateByPrimaryKeySelective(Order record);

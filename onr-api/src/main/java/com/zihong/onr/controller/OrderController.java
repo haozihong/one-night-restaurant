@@ -26,22 +26,25 @@ public class OrderController {
     private FoodService foodService;
 
     @GetMapping("/orders")
-    public List<Order> getOrders(Integer id, Integer customerId, String phone, Integer status) {
+    public List<Order> getOrders(Integer id, Integer customerId, String phone, Integer status, String customerName) {
         System.out.println("[MY DEBUG] id=>" + id +
                 "; customerId=>" + customerId +
                 "; phone=>" + phone +
-                "; status=>" + status);
+                "; status=>" + status +
+                "; customerName=>" + customerName);
         if (id != null) {
             return Collections.singletonList(orderService.selectByPrimaryKey(id));
         } else if (customerId != null) {
             return orderService.selectByCustomerId(customerId);
-        } else  if (phone != null) {
+        } else if (phone != null) {
             if (status != null && status.equals(0)) {
                 System.out.println("[MY DEBUG] select pending");
                 return orderService.selectPendingByPhone(phone);
             } else {
                 return orderService.selectByPhone(phone);
             }
+        } else if (customerName != null) {
+            return customerName.length() > 1 ? orderService.selectByCustomerNameFuzzy(customerName) : Collections.emptyList();
         } else {
             return orderService.getAllOrders();
         }
