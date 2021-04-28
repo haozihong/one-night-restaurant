@@ -145,7 +145,7 @@ export default {
       this.axios.post(`/customers`, this.newCustomerForm).then(resp => {
         if (resp) {
           this.newCustomerFormVisible = false;
-          this.currentCustomer = this.newCustomerForm;
+          this.currentCustomer = resp.obj;
         }
       });
     },
