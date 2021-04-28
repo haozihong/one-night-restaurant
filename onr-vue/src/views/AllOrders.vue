@@ -27,7 +27,11 @@
     <el-card>
       <el-table :data="ordersFiltered" :empty-text="tableEmptyText" stripe>
         <el-table-column prop="id" label="ID" width="50"/>
-        <el-table-column prop="createTime" label="Time"/>
+        <el-table-column label="Time">
+          <template slot-scope="scope">
+            {{ scope.row.createTime | dateFormat }}
+          </template>
+        </el-table-column>
         <el-table-column label="Customer">
           <template slot-scope="scope">
             {{ scope.row.customer.name }}

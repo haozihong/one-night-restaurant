@@ -32,6 +32,10 @@ axios.interceptors.response.use(success => {
   }
 })
 
+import moment from 'moment'
+Vue.filter('dateFormat', function (daraStr, pattern = 'YYYY-MM-DD HH:mm:ss') {
+  return moment(daraStr).format(pattern)
+})
 
 Vue.config.productionTip = false
 
