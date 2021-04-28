@@ -63,14 +63,14 @@
           </div>
           <hr v-if="foodsNeeded.length > 0">
           <div v-if="foodsNeeded.length > 0">
-            {{ "Total: $" + this.foods.reduce((a, b) => a + b.totalPrice, 0) }}
+            {{ "Total: $" + this.foods.reduce((a, b) => a + b.totalPrice, 0).toFixed(2) }}
           </div>
         </el-card>
       </el-col>
     </el-row>
 
     <el-row>
-      <el-button type="primary" style="width: 100%">Submit Order</el-button>
+      <el-button type="primary" style="width: 100%" @click="submitOrder" :loading="submitLoading">Submit Order</el-button>
     </el-row>
 
     <!--New customer form-->
@@ -112,7 +112,8 @@ export default {
       foodsNeeded: [],
       tableEmptyText: "No Data",
       foodsNum: {},
-      doTableUpdate: 0
+      doTableUpdate: 0,
+      submitLoading: false
     }
   },
   computed: {
@@ -155,6 +156,30 @@ export default {
       food.totalPrice = food.price * food.number;
       this.foodsNeeded = this.foods.filter(e => e.number > 0);
       this.doTableUpdate = Math.random();
+    },
+    submitOrder() {
+      if (this.currentCustomer.name.length === 0)
+        return this.$message.error({ message: "Please set a customer." });
+      if (this.foodsNeeded.length === 0)
+        return this.$message.error({ message: "Empty order." });
+      this.submitLoading = true;
+      let order = {
+        customerId: this.currentCustomer.id,
+        foodsList: []
+      };
+      this.foodsNeeded.forEach(e => {
+        order.foodsList.push({ foodId: e.id, number: e.number });
+      });
+      // console.log(order);
+      this.axios.post(`/orders`, order).then(resp => {
+        // console.log(resp);
+        if (resp) {
+          this.foods.forEach(e => e.number = e.totalPrice = 0);
+          this.foodsNeeded = [];
+          this.currentCustomer = { name: '', phone: '' };
+        }
+        this.submitLoading = false;
+      });
     }
   }
 }
