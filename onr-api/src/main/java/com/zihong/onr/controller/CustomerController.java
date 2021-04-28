@@ -6,7 +6,7 @@ import com.zihong.onr.utils.RespUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -25,7 +25,7 @@ public class CustomerController {
         if (phone == null) {
             return customerService.getAllCustomers();
         } else {
-            return Arrays.asList(customerService.selectByPhone(phone));
+            return Collections.singletonList(customerService.selectByPhone(phone));
         }
     }
 
@@ -35,7 +35,7 @@ public class CustomerController {
     }
 
     @PostMapping("/customers")
-    public RespUtils insert(Customer customer) {
+    public RespUtils insert(@RequestBody Customer customer) {
         if (customerService.insert(customer) == 1) {
             return RespUtils.ok("[SUCCESS] insert customer[" + customer.getName() + "] success");
         }
