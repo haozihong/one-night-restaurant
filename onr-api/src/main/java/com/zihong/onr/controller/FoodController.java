@@ -2,6 +2,7 @@ package com.zihong.onr.controller;
 
 import com.zihong.onr.pojo.Food;
 import com.zihong.onr.service.FoodService;
+import com.zihong.onr.utils.RespUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,12 +29,18 @@ public class FoodController {
     }
 
     @PostMapping("/foods")
-    public int insert(Food record) {
-        return foodService.insert(record);
+    public RespUtils insert(Food food) {
+        if (foodService.insert(food) == 1) {
+            return RespUtils.ok("[SUCCESS] insert food[" + food.getName() + "] success");
+        }
+        return RespUtils.error("[FAIL] insert food[" + food.getName() + "] fail");
     }
 
     @DeleteMapping("/foods/{id}")
-    public int deleteByPrimaryKey(@PathVariable("id") Integer id) {
-        return foodService.deleteByPrimaryKey(id);
+    public RespUtils deleteByPrimaryKey(@PathVariable("id") Integer id) {
+        if (foodService.deleteByPrimaryKey(id) == 1) {
+            return RespUtils.ok("[SUCCESS] delete food#" + id + " success");
+        }
+        return RespUtils.error("[FAIL] delete food#" + id + " fail");
     }
 }
