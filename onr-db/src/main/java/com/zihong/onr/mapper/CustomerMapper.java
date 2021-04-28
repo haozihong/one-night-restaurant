@@ -18,6 +18,8 @@ public interface CustomerMapper {
 
     Customer selectByPhone(String phone);
 
+    List<Customer> selectByNameFuzzy(String keyword);
+
     int insert(Customer record);
 
     int deleteByPrimaryKey(Integer id);

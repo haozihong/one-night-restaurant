@@ -20,12 +20,14 @@ public class CustomerController {
     private CustomerService customerService;
 
     @GetMapping("/customers")
-    public List<Customer> getCustomers(String phone) {
+    public List<Customer> getCustomers(String phone, String keyword) {
         System.out.println("[MY DEBUG] phone=>" + phone);
-        if (phone == null) {
-            return customerService.getAllCustomers();
-        } else {
+        if (phone != null) {
             return Collections.singletonList(customerService.selectByPhone(phone));
+        } if (keyword != null) {
+            return keyword.length() > 1 ? customerService.selectByNameFuzzy(keyword) : Collections.emptyList();
+        } else {
+            return customerService.getAllCustomers();
         }
     }
 

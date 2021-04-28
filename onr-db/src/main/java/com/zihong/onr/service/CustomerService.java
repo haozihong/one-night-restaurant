@@ -29,6 +29,10 @@ public class CustomerService {
         return customerMapper.selectByPhone(phone);
     }
 
+    public List<Customer> selectByNameFuzzy(String keyword) {
+        return customerMapper.selectByNameFuzzy(keyword);
+    }
+
     public int insert(Customer record) {
         return customerMapper.insert(record);
     }
