@@ -42,7 +42,7 @@ export default {
 }
 
 #home-header .title {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   align-self: center;
 }
 </style>
