@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zihong.onr.mapper.FoodMapper">
+
+    <select id="getAllFoods" resultType="com.zihong.onr.pojo.Food">
+        select * from food
+    </select>
+
+    <select id="selectByPrimaryKey" resultType="com.zihong.onr.pojo.Food" parameterType="java.lang.Integer">
+        select * from food where id = #{id}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from food where id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.zihong.onr.pojo.Food">
+        insert into food (name, price)
+        values (#{name}, #{price})
+    </insert>
+</mapper>
