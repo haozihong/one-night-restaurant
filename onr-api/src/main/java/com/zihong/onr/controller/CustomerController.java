@@ -39,7 +39,7 @@ public class CustomerController {
     @PostMapping("/customers")
     public RespUtils insert(@RequestBody Customer customer) {
         if (customerService.insert(customer) == 1) {
-            return RespUtils.ok("[SUCCESS] insert customer[" + customer.getName() + "] success");
+            return RespUtils.ok("[SUCCESS] insert customer[" + customer.getName() + "] success", customer);
         }
         return RespUtils.error("[FAIL] insert customer[" + customer.getName() + "] fail");
     }

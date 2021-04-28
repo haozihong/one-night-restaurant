@@ -23,7 +23,7 @@
         delete from customer where id = #{id}
     </delete>
 
-    <insert id="insert" parameterType="com.zihong.onr.pojo.Customer">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.zihong.onr.pojo.Customer">
         insert into customer (name, phone)
         values (#{name}, #{phone})
     </insert>
