@@ -7,6 +7,7 @@ import com.zihong.onr.pojo.OrderFoods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,6 +49,14 @@ public class OrderService {
             if (orderFoodsMapper.insert(orderFoods) == 0) return 0;
         }
         return 1;
+    }
+
+    public int pickUpOrderById(Integer id, Date pickedupTime) {
+        Order order = new Order();
+        order.setId(id);
+        order.setStatus(1);
+        order.setPickedUpTime(pickedupTime);
+        return orderMapper.updateByPrimaryKeySelective(order);
     }
 
     public int deleteByPrimaryKey(Integer id) {

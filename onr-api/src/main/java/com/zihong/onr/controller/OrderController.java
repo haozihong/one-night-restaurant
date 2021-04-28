@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -54,7 +55,13 @@ public class OrderController {
 
     @PutMapping("/orders/pickup/{id}")
     public RespUtils pickUpOrderById(@PathVariable("id") Integer id) {
-        // TODO: 2021/04/28 pick up an order by id
+        Order order = orderService.selectByPrimaryKey(id);
+        if (order.getStatus().equals(1)) {
+            return RespUtils.error("[FAIL] order#" + id + " was picked up on " + order.getPickedUpTime());
+        }
+        if (orderService.pickUpOrderById(id, new Date()) == 1) {
+            return RespUtils.error("[SUCCESS] pick up order#" + id + " success");
+        }
         return RespUtils.error("[FAIL] pick up order#" + id + " fail");
     }
 

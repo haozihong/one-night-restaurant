@@ -24,5 +24,7 @@ public interface OrderMapper {
 
     int insert(Order record);
 
+    int updateByPrimaryKeySelective(Order record);
+
     int deleteByPrimaryKey(Integer id);
 }
