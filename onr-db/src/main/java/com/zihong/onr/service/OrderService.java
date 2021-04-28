@@ -46,6 +46,7 @@ public class OrderService {
     public int insert(Order order) {
         if (orderMapper.insert(order) == 0) return 0;
         for (OrderFoods orderFoods : order.getFoodsList()) {
+            orderFoods.setOrderId(order.getId());
             if (orderFoodsMapper.insert(orderFoods) == 0) return 0;
         }
         return 1;

@@ -80,7 +80,7 @@
         delete from `order` where id = #{id}
     </delete>
 
-    <insert id="insert" parameterType="com.zihong.onr.pojo.Order">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.zihong.onr.pojo.Order">
         insert into `order` (customerId, status, orderPrice, createTime, pickedUpTime)
         values (#{customerId}, #{status}, #{orderPrice}, #{createTime}, #{pickedUpTime})
     </insert>

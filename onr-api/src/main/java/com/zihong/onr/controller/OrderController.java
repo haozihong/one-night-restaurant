@@ -1,6 +1,8 @@
 package com.zihong.onr.controller;
 
 import com.zihong.onr.pojo.Order;
+import com.zihong.onr.pojo.OrderFoods;
+import com.zihong.onr.service.FoodService;
 import com.zihong.onr.service.OrderService;
 import com.zihong.onr.utils.RespUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ import java.util.List;
 public class OrderController {
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private FoodService foodService;
 
     @GetMapping("/orders")
     public List<Order> getOrders(Integer id, Integer customerId, String phone, Integer status) {
@@ -48,8 +53,25 @@ public class OrderController {
     }
 
     @PostMapping("/orders")
-    public RespUtils insert(Order order) {
-        // TODO: 2021/04/28 insert an order
+    public RespUtils insert(@RequestBody Order order) {
+        System.out.println("[MY DEBUG] new order: \n" + order);
+        // TODO: 2021/04/28 validate customerId and all foodIds
+        
+        // calculate order's total price
+        double orderPrice = 0;
+        for (OrderFoods orderFoods : order.getFoodsList()) {
+            double foodPrice = foodService.selectByPrimaryKey(orderFoods.getFoodId()).getPrice() * orderFoods.getNumber();
+            orderPrice += foodPrice;
+            orderFoods.setTotalPrice(foodPrice);
+        }
+        order.setOrderPrice(orderPrice);
+        // status cannot be null
+        if (order.getStatus() == null) order.setStatus(0);
+        // set createTime to now
+        if (order.getCreateTime() == null) order.setCreateTime(new Date());
+        if (orderService.insert(order) == 1) {
+            return RespUtils.error("[SUCCESS] insert order success");
+        }
         return RespUtils.error("[FAIL] insert order fail");
     }
 
