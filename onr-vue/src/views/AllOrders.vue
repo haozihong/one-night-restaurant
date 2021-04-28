@@ -5,7 +5,7 @@
         <el-input v-model="searchForm.keyword" placeholder="Keyword"></el-input>
       </el-form-item>
       <el-form-item label="By:">
-        <el-select v-model="searchForm.searchBy" placeholder="Search By">
+        <el-select v-model="searchForm.searchBy" placeholder="Search By" style="width: 10rem">
           <el-option label="Order ID" value="orderId"></el-option>
           <el-option label="Customer ID" value="customerId"></el-option>
           <el-option label="Customer Name" value="customerName"></el-option>

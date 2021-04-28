@@ -3,11 +3,16 @@
     <el-container>
       <el-header id="home-header">
         <span class="title">MSI Bistro</span>
-        <el-menu router mode="horizontal">
+        <el-menu router mode="horizontal" class="hidden-xs-only">
           <el-menu-item index="/new-order">New Order</el-menu-item>
           <el-menu-item index="/pick-up">Pick Up</el-menu-item>
           <el-menu-item index="/all-orders">All Orders</el-menu-item>
         </el-menu>
+        <span style="margin-left: auto; align-self: center">
+            <i class="hidden-sm-and-up el-icon-s-fold"
+               style="color: #666; cursor:pointer; font-size: 2rem"
+               @click="showDrawer = true"></i>
+        </span>
       </el-header>
 
       <el-main>
@@ -18,12 +23,22 @@
       </el-main>
     </el-container>
 
+    <el-drawer title="ONR" :visible.sync="showDrawer" size="40%">
+      <el-menu router>
+        <el-menu-item index="/new-order" @click="showDrawer = false">New Order</el-menu-item>
+        <el-menu-item index="/pick-up" @click="showDrawer = false">Pick Up</el-menu-item>
+        <el-menu-item index="/all-orders" @click="showDrawer = false">All Orders</el-menu-item>
+      </el-menu>
+    </el-drawer>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Home'
+  name: 'Home',
+  data: () => ({
+    showDrawer: false
+  })
 }
 </script>
 
