@@ -10,15 +10,17 @@
     </el-form>
 
     <p v-if="!order" style="text-align: center; color: #999">
-      Enter customer's phone number and search.
+      {{ emptyMessage }}
     </p>
     <el-row>
       <el-col :md="12">
         <el-card v-if="order">
           <div slot="header">
-            Customer: {{ this.order.customer.name }}
+            <span style="color: #999">Customer: </span>
+            {{ this.order.customer.name }}
             <el-divider direction="vertical"></el-divider>
-            Phone: {{ this.order.customer.phone }}
+            <span style="color: #999">Phone: </span>
+            {{ this.order.customer.phone }}
           </div>
           <p v-for="orderFoods in this.order.foodsList" :key="orderFoods.id">
             {{ orderFoods.food.name + " × " + orderFoods.number }}
@@ -40,7 +42,8 @@ export default {
   data() {
     return {
       searchForm: { phone: "" },
-      order: null
+      order: null,
+      emptyMessage: "Enter customer's phone number and search."
     }
   },
   methods: {
@@ -50,11 +53,13 @@ export default {
       this.axios.get(`/orders?phone=${this.searchForm.phone}&status=0`).then(resp => {
         // console.log(resp);
         this.order = resp[0];
+        this.emptyMessage = "No result.";
       });
     },
     pickUpOrder() {
       this.axios.put(`/orders/pickup/${this.order.id}`).then(() => {
         this.order = null;
+        this.emptyMessage = "Enter customer's phone number and search.";
       });
     }
   }

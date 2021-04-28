@@ -10,14 +10,13 @@
       </el-form-item>
     </el-form>
 
-    <el-row>
-      <el-col :sm="8" :xs="12">
-        Customer: <span>{{ currentCustomer.name }}</span>
-      </el-col>
-      <el-col :sm="8" :xs="12">
-        Phone: <span>{{ currentCustomer.phone }}</span>
-      </el-col>
-    </el-row>
+    <p>
+      <span style="color: #999">Customer: </span>
+      {{ currentCustomer.name.length > 0 ? currentCustomer.name : "N/A" }}
+      <el-divider direction="vertical"></el-divider>
+      <span style="color: #999">Phone: </span>
+      {{ currentCustomer.phone.length > 0 ? currentCustomer.phone : "N/A" }}
+    </p>
 
     <el-row :gutter="20">
       <el-col :md="18">
