@@ -9,27 +9,29 @@
       </el-form-item>
     </el-form>
 
-    <p v-if="!order" style="text-align: center; color: #999">
+    <p v-if="!orders || orders.length === 0" style="text-align: center; color: #999">
       {{ emptyMessage }}
     </p>
-    <el-row>
-      <el-col :md="12">
-        <el-card v-if="order">
+    <el-row :gutter="16" v-if="orders && orders.length > 0">
+      <el-col :sm="12" :md="8" :xl="6" v-for="order in this.orders" :key="order.id">
+        <el-card>
           <div slot="header">
             <span style="color: #999">Customer: </span>
-            {{ this.order.customer.name }}
+            {{ order.customer.name }}
             <el-divider direction="vertical"></el-divider>
             <span style="color: #999">Phone: </span>
-            {{ this.order.customer.phone }}
+            {{ order.customer.phone }}
           </div>
-          <p v-for="orderFoods in this.order.foodsList" :key="orderFoods.id">
-            {{ orderFoods.food.name + " × " + orderFoods.number }}
+          <p v-for="orderFoods in order.foodsList" :key="orderFoods.id">
+            <span v-if="orderFoods.food">
+              {{ orderFoods.food.name + " × " + orderFoods.number }}
+            </span>
           </p>
           <el-divider></el-divider>
           <p>
-            {{ "Total: $" + this.order.orderPrice }}
+            {{ "Total: $" + order.orderPrice }}
           </p>
-          <el-button type="primary" style="width: 100%" @click="pickUpOrder">Pick Up</el-button>
+          <el-button type="primary" style="width: 100%" @click="pickUpOrder(order.id)">Pick Up</el-button>
         </el-card>
       </el-col>
     </el-row>
@@ -42,7 +44,7 @@ export default {
   data() {
     return {
       searchForm: { phone: "" },
-      order: null,
+      orders: [],
       emptyMessage: "Enter customer's phone number and search."
     }
   },
@@ -52,13 +54,13 @@ export default {
         return this.$message.error({ message: "Please enter customer's phone number." });
       this.axios.get(`/orders?phone=${this.searchForm.phone}&status=0`).then(resp => {
         // console.log(resp);
-        this.order = resp[0];
+        this.orders = resp;
         this.emptyMessage = "No result.";
       });
     },
-    pickUpOrder() {
-      this.axios.put(`/orders/pickup/${this.order.id}`).then(() => {
-        this.order = null;
+    pickUpOrder(orderId) {
+      this.axios.put(`/orders/pickup/${orderId}`).then(() => {
+        this.orders = this.orders.filter(e => e.id !== orderId);
         this.emptyMessage = "Enter customer's phone number and search.";
       });
     }
@@ -67,5 +69,7 @@ export default {
 </script>
 
 <style scoped>
-
+.el-col {
+  margin-bottom: 1rem;
+}
 </style>
