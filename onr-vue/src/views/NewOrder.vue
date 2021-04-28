@@ -21,7 +21,7 @@
     <el-row :gutter="20">
       <el-col :md="18">
         <el-card shadow="hover">
-          <el-table :data="foods" :empty-text="tableEmptyText" :key="doTableUpdate">
+          <el-table :data="foods" :empty-text="tableEmptyText">
             <el-table-column prop="id" width="30"/>
             <el-table-column prop="name" label="Name"/>
             <el-table-column prop="price" label="Unit Price ($)"/>
@@ -111,7 +111,6 @@ export default {
       foodsNeeded: [],
       tableEmptyText: "No Data",
       foodsNum: {},
-      doTableUpdate: 0,
       submitLoading: false
     }
   },
@@ -154,7 +153,7 @@ export default {
       if (food.number < 0) food.number = 0;
       food.totalPrice = food.price * food.number;
       this.foodsNeeded = this.foods.filter(e => e.number > 0);
-      this.doTableUpdate = Math.random();
+      this.foods.splice(1, 0);  // trigger the table to update view
     },
     submitOrder() {
       if (this.currentCustomer.name.length === 0)
