@@ -1,0 +1,1 @@
+web java -Dserver.port=$PORT $JAVA_OPTS -jar onr-api/target/*.jar --spring.profiles.active=prod
