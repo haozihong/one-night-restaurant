@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:${MYSQLDBURL1:mysql://root:123456@localhost:3306/onr}?useUnicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+server:
+  port: ${PORT:8081}
+logging:
+  level:
+    org.mybatis: DEBUG
