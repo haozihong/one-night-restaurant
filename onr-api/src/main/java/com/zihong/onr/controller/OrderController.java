@@ -70,7 +70,7 @@ public class OrderController {
         // set createTime to now
         if (order.getCreateTime() == null) order.setCreateTime(new Date());
         if (orderService.insert(order) == 1) {
-            return RespUtils.error("[SUCCESS] insert order success");
+            return RespUtils.ok("[SUCCESS] insert order success");
         }
         return RespUtils.error("[FAIL] insert order fail");
     }
@@ -82,7 +82,7 @@ public class OrderController {
             return RespUtils.error("[FAIL] order#" + id + " was picked up on " + order.getPickedUpTime());
         }
         if (orderService.pickUpOrderById(id, new Date()) == 1) {
-            return RespUtils.error("[SUCCESS] pick up order#" + id + " success");
+            return RespUtils.ok("[SUCCESS] pick up order#" + id + " success");
         }
         return RespUtils.error("[FAIL] pick up order#" + id + " fail");
     }
