@@ -19,16 +19,16 @@ Vue.use(VueAxios, axios)
 // handle all errors here
 axios.interceptors.response.use(success => {
   if (success.status && success.status === 200 && success.data.status === 500) {
-    this.Message.error({message: success.data.msg})
+    ElementUI.Message.error({message: success.data.msg})
   } else if (success.data.msg) {
-    this.Message.success({message: success.data.msg})
+    ElementUI.Message.success({message: success.data.msg})
   }
   return success.data;
 }, error => {
   if (error.response.data.msg) {
-    this.Message.error({message: error.response.data.msg})
+    ElementUI.Message.error({message: error.response.data.msg})
   } else {
-    this.Message.error({ message: `${error.response.status}: ${error.response.statusText}` })
+    ElementUI.Message.error({ message: `${error.response.status}: ${error.response.statusText}` })
   }
 })
 
