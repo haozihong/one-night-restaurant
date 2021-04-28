@@ -20,6 +20,8 @@ public class Order {
 
     private Integer customerId;
 
+    private Customer customer;
+
     private Integer status;
 
     private Double orderPrice;
