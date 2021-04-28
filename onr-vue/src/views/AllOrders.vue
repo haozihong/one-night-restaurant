@@ -13,7 +13,8 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button @click="searchCustomers">Search</el-button>
+        <el-button @click="searchOrders">Search</el-button>
+        <el-button type="primary" style="width: 10rem" @click="getAllOrders">All Orders</el-button>
       </el-form-item>
     </el-form>
 
@@ -78,7 +79,7 @@ export default {
     }
   },
   methods: {
-    searchCustomers() {
+    searchOrders() {
       if (this.searchForm.keyword.length === 0 || this.searchForm.searchBy.length === 0)
         return this.$message.error({ message: "Please complete all fields." });
       let param = "";
@@ -100,6 +101,20 @@ export default {
         // console.log(resp);
         if (resp) {
           this.orders = this.searchForm.searchBy === "orderId" ? [resp] : resp;
+          this.orders.sort((a, b) => a.id - b.id);
+          this.filterOrders();
+        } else {
+          this.orders = this.ordersFiltered = [];
+        }
+        this.tableEmptyText = "No Data";
+      });
+    },
+    getAllOrders() {
+      this.tableEmptyText = "Fetching Data...";
+      this.axios.get(`/orders`).then(resp => {
+        // console.log(resp);
+        if (resp) {
+          this.orders = resp;
           this.orders.sort((a, b) => a.id - b.id);
           this.filterOrders();
         } else {
